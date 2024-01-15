@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef, useState } from 'react';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -18,8 +18,10 @@ import btnStyles from '../../styles/Button.module.css';
 
 import { useHistory } from 'react-router';
 import { axiosReq } from '../../api/axiosDefaults';
+import { useRedirect } from '../../hooks/useRedirect';
 
 function PostCreateForm() {
+  useRedirect('loggedOut');
   const [errors, setErrors] = useState({});
 
   const [postData, setPostData] = useState({
@@ -70,7 +72,6 @@ function PostCreateForm() {
 
   const textFields = (
     <div className='text-center'>
-
       <Form.Group>
         <Form.Label>Title</Form.Label>
         <Form.Control
@@ -147,20 +148,20 @@ function PostCreateForm() {
                   />
                 </Form.Label>
               )}
-              
+
               <Form.File
                 id='image-upload'
                 accept='image/*'
                 onChange={handleChangeImage}
                 ref={imageInput}
               />
-              {errors?.image?.map((message, idx) => (
-                <Alert variant='warning' key={idx}>
-                  {message}
-                </Alert>
-              ))}
-
             </Form.Group>
+            {errors?.image?.map((message, idx) => (
+              <Alert variant='warning' key={idx}>
+                {message}
+              </Alert>
+            ))}
+
             <div className='d-md-none'>{textFields}</div>
           </Container>
         </Col>
